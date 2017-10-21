@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.activation.FileTypeMap;
 import javax.sql.DataSource;
 import java.io.FileOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -157,6 +158,21 @@ public class Main {
       model.put("message", e.getMessage());
     }
   }
+
+
+  @GetMapping("showme")
+  public ResponseEntity<byte[]> getImage() throws IOException{
+    byte[] image = readPicture(Integer.parseInt("2"));
+    return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(MediaType.IMAGE_JPEG_VALUE))).body(image);
+  }
+//  @GetMapping("thing")
+//  public ResponseEntity<byte[]> what() throws IOException{
+//    byte[] image = readPicture(Integer.parseInt("1"));
+//    return ResponseEntity.ok()
+//            .header("Content-Disposition", "attachment; filename=" +file.getName())
+//            .contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(file)))
+//            .body(Files.readAllBytes(file.toPath()));
+//  }
 
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
