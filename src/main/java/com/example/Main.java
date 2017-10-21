@@ -119,7 +119,7 @@ public class Main {
               "message varchar(1000)," +
               "image bytea)");
 
-      ResultSet rs = stmt.executeQuery("SELECT title, message FROM needs");
+      ResultSet rs = stmt.executeQuery("SELECT needId, title, message FROM needs");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
