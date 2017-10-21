@@ -116,8 +116,8 @@ public class Main {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS needs (needId SERIAL, " +
-              "title nvarchar(100)," +
-              "message nvarchar(1000)," +
+              "title varchar(100)," +
+              "message varchar(1000)," +
               "image bytea)");
 
       ResultSet rs = stmt.executeQuery("SELECT * FROM needs");
