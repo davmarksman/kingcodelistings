@@ -125,7 +125,7 @@ public class Main {
       while (rs.next()) {
         output.add("Read from DB needId: " + rs.getString("needId"));
         output.add("Read from DB title: " + rs.getString("title"));
-        output.add("Read from DB message: " + rs.getTimestamp("message"));
+        output.add("Read from DB message: " + rs.getString("message"));
       }
 
       model.put("records", output);
