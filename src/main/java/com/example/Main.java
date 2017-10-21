@@ -69,8 +69,8 @@ public class Main {
   }
 
 
-  @RequestMapping("/need")
-  String need() {
+  @RequestMapping("/needs")
+  String needs() {
     return "needs";
   }
 
