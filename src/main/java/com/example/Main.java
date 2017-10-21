@@ -161,20 +161,6 @@ public class Main {
   }
 
 
-  @GetMapping("showme")
-  public ResponseEntity<byte[]> getImage2() throws IOException{
-    byte[] image = readPicture(Integer.parseInt("2"));
-    return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(MediaType.IMAGE_JPEG_VALUE))).body(image);
-  }
-//  @GetMapping("thing")
-//  public ResponseEntity<byte[]> what() throws IOException{
-//    byte[] image = readPicture(Integer.parseInt("1"));
-//    return ResponseEntity.ok()
-//            .header("Content-Disposition", "attachment; filename=" +file.getName())
-//            .contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(file)))
-//            .body(Files.readAllBytes(file.toPath()));
-//  }
-
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
@@ -215,7 +201,7 @@ public class Main {
     return ResponseEntity.ok(image);
   }
 
-  @RequestMapping(value = "/api/image2/{id:.+}" , consumes = MediaType.ALL_VALUE)
+  @RequestMapping(value = "/api/image3/{id:.+}" , consumes = MediaType.ALL_VALUE)
   public @ResponseBody String getImage3(@PathVariable("id") String id) {
     byte[] image = readPicture(Integer.parseInt(id));
     String result = new String();
@@ -225,6 +211,21 @@ public class Main {
 
     return result;
   }
+
+  @GetMapping("showme")
+  public ResponseEntity<byte[]> getImage4() throws IOException{
+    byte[] image = readPicture(Integer.parseInt("2"));
+    return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(MediaType.IMAGE_JPEG_VALUE))).body(image);
+  }
+//  @GetMapping("thing")
+//  public ResponseEntity<byte[]> what() throws IOException{
+//    byte[] image = readPicture(Integer.parseInt("1"));
+//    return ResponseEntity.ok()
+//            .header("Content-Disposition", "attachment; filename=" +file.getName())
+//            .contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(file)))
+//            .body(Files.readAllBytes(file.toPath()));
+//  }
+
 
   public byte[] readPicture(int id) {
     // update sql
