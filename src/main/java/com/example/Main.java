@@ -32,8 +32,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.sql.DataSource;
 import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,21 +71,21 @@ public class Main {
 
 
   @PostMapping("/api/need")
-  public String handleFileUpload(@RequestParam("title") String title,
+  public void handleFileUpload(@RequestParam("title") String title,
                                  @RequestParam("message") String message,
                                  @RequestParam("imagefile") MultipartFile file,
                                  RedirectAttributes redirectAttributes) throws Exception {
     Map<String, Object> model = new HashMap<String, Object>();
 
-    // saveUploadedFiles(title, message, file, model);
+    saveUploadedFiles(title, message, file, model);
     //storageService.store(file);
 //    redirectAttributes.addFlashAttribute("message",
 //            "You successfully uploaded " + file.getOriginalFilename() + "!");
 //
-    return "redirect:/";
+    //return "redirect:/";
   }
 
-  private String saveUploadedFiles(String title, String message, MultipartFile file, Map<String, Object> model) throws Exception {
+  private void saveUploadedFiles(String title, String message, MultipartFile file, Map<String, Object> model) throws Exception {
     byte[] bytes = file.getBytes();
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
@@ -92,23 +97,10 @@ public class Main {
       ps.executeUpdate();
       ps.close();
 
-      ResultSet rs = stmt.executeQuery("SELECT title FROM needs");
-
-
-      ArrayList<String> output = new ArrayList<String>();
-      while (rs.next()) {
-        output.add("Read from DB: " + rs.getString("title"));
-      }
-
-      //model.put("records", output);
-      //return "db";
-      return String.join(" and ", output);
     } catch (Exception e) {
       model.put("message", e.getMessage());
-      return "error";
     }
   }
-
 
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
@@ -148,33 +140,61 @@ public class Main {
     ResultSet rs = null;
     PreparedStatement pstmt = null;
     byte[] imageBytes = null;
-
-    try (Connection conn = dataSource.getConnection()) {
-      pstmt = conn.prepareStatement(selectSQL);
-      pstmt.setInt(1, id);
-      rs = pstmt.executeQuery();
-
-
-      while (rs.next()) {
-        imageBytes = rs.getBytes("image");
-
-      }
-    } catch (SQLException e) {
-      System.out.println(e.getMessage());
-    } finally {
-      try {
-        if (rs != null) {
-          rs.close();
-        }
-        if (pstmt != null) {
-          pstmt.close();
-        }
-      } catch (SQLException e) {
-        System.out.println(e.getMessage());
-      }
+//    try{
+//        try (Connection conn = dataSource.getConnection()) {
+//          pstmt = conn.prepareStatement(selectSQL);
+//          pstmt.setInt(1, id);
+//          rs = pstmt.executeQuery();
+//
+//
+//          while (rs.next()) {
+//            imageBytes = rs.getBytes("image");
+//
+//          }
+//        } catch (SQLException e) {
+//          System.out.println(e.getMessage());
+//        } finally {
+//          try {
+//            if (rs != null) {
+//              rs.close();
+//            }
+//            if (pstmt != null) {
+//              pstmt.close();
+//            }
+//          } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//          }
+//        }
+//    }catch(Exception e){
+//      Path path = Paths.get("\\src\\main\\resources\\public");
+//      try {
+//        imageBytes = Files.readAllBytes(path);
+//      } catch (IOException e1) {
+//        e1.printStackTrace();
+//      }
+//    }
+    try {
+      imageBytes = recoverImageFromUrl("https://upload.wikimedia.org/wikipedia/commons/e/e0/JPEG_example_JPG_RIP_050.jpg");
+    } catch (Exception e) {
+      e.printStackTrace();
     }
     return imageBytes;
   }
+  public byte[] recoverImageFromUrl(String urlText) throws Exception {
+    URL url = new URL(urlText);
+    ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+    try (InputStream inputStream = url.openStream()) {
+      int n = 0;
+      byte [] buffer = new byte[ 1024 ];
+      while (-1 != (n = inputStream.read(buffer))) {
+        output.write(buffer, 0, n);
+      }
+    }
+
+    return output.toByteArray();
+  }
+
 
   @Bean
   public DataSource dataSource() throws SQLException {
