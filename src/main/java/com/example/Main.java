@@ -24,14 +24,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
@@ -53,20 +55,79 @@ public class Main {
     return "index";
   }
 
+
+  @RequestMapping("/need")
+  String need() {
+    return "need";
+  }
+
+  @RequestMapping("/api/need")
+  void needSubmit() {
+
+  }
+
+  @PostMapping("/api/need")
+  public String handleFileUpload(@RequestParam("title") String title,
+                                 @RequestParam("message") String message,
+                                 @RequestParam("imagefile") MultipartFile file,
+                                 RedirectAttributes redirectAttributes) throws Exception {
+    Map<String, Object> model = new HashMap<String, Object>();
+
+    return saveUploadedFiles(title, message, file, model);
+    //storageService.store(file);
+//    redirectAttributes.addFlashAttribute("message",
+//            "You successfully uploaded " + file.getOriginalFilename() + "!");
+//
+//    return "redirect:/";
+  }
+
+  private String saveUploadedFiles(String title, String message, MultipartFile file, Map<String, Object> model) throws Exception {
+    byte[] bytes = file.getBytes();
+    try (Connection connection = dataSource.getConnection()) {
+      Statement stmt = connection.createStatement();
+
+      PreparedStatement ps = connection.prepareStatement("INSERT INTO needs(title,message,image) VALUES (?,?,?)");
+      ps.setString(1, title);
+      ps.setString(2, message);
+      ps.setBytes(3, bytes);
+      ps.executeUpdate();
+      ps.close();
+
+      ResultSet rs = stmt.executeQuery("SELECT title FROM needs");
+
+
+      ArrayList<String> output = new ArrayList<String>();
+      while (rs.next()) {
+        output.add("Read from DB: " + rs.getString("title"));
+      }
+
+      //model.put("records", output);
+      //return "db";
+      return String.join(" and ", output);
+    } catch (Exception e) {
+      model.put("message", e.getMessage());
+      return "error";
+    }
+  }
+
+
   @RequestMapping("/db")
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
-      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS ticks (tick timestamp)");
-      stmt.executeUpdate("INSERT INTO ticks VALUES (now())");
-      ResultSet rs = stmt.executeQuery("SELECT tick FROM ticks");
+      stmt.executeUpdate("CREATE TABLE IF NOT EXISTS needs (needId SERIAL, " +
+              "title nvarchar(100)," +
+              "message nvarchar(1000)," +
+              "image bytea)");
 
-      ArrayList<String> output = new ArrayList<String>();
-      while (rs.next()) {
-        output.add("Read from DB: " + rs.getTimestamp("tick"));
-      }
+      ResultSet rs = stmt.executeQuery("SELECT * FROM needs");
 
-      model.put("records", output);
+//      ArrayList<String> output = new ArrayList<String>();
+//      while (rs.next()) {
+//        output.add("Read from DB: " + rs.getTimestamp("tick"));
+//      }
+
+//      model.put("records", output);
       return "db";
     } catch (Exception e) {
       model.put("message", e.getMessage());

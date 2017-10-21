@@ -1,0 +1,52 @@
+$(function() {
+    var ViewModel = function(){
+        var self = this;
+
+        self.editingItem = {
+            file: ko.observable([]),
+            title: ko.observable(""),
+            message: ko.observable(""),
+        };
+
+        self.fileUploaderOptions = {
+             selectButtonText: "Select photo",
+             multiple: false,
+             labelText: "",
+             accept: "image/*",
+             uploadMode: "useForm",
+             value: self.editingItem.file,
+         };
+
+        self.title = {
+            value: ko.observable("")
+        };
+        self.submitClick = function() {
+            var file = (self.editingItem.file().length > 0) ? viewModel.editingItem.file()[0] : null;
+            sendNeed("POST", self.editingItem.title(), self.editingItem.message(), file);
+        };
+
+        function sendNeed(method, title, message, file) {
+             var formData = new FormData();
+             formData.append("title", title);
+             formData.append("message", message);
+             //var researchJson = JSON.stringify({ title: title, message: message});
+
+             if(file != null)formData.append('imagefile', file);
+
+             $.ajax({
+                 url: "/api/need",
+                 method: method,
+                 processData : false,
+                 contentType: file ? false :'application/json',
+                 data: formData
+             }).done(function () {
+                DevExpress.ui.notify("Done", "Info", 3000)
+             });
+        }
+    };
+
+    var viewModel = new ViewModel()
+
+
+    ko.applyBindings(viewModel);
+});
