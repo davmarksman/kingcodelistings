@@ -63,10 +63,7 @@ public class Main {
   String need() {
     return "need";
   }
-  @RequestMapping("/api/need")
-   void needSubmit() {
 
-  }
 
   @PostMapping("/api/need")
   public String handleFileUpload(@RequestParam("title") String title,
@@ -75,12 +72,12 @@ public class Main {
                                  RedirectAttributes redirectAttributes) throws Exception {
     Map<String, Object> model = new HashMap<String, Object>();
 
-    return saveUploadedFiles(title, message, file, model);
+    // saveUploadedFiles(title, message, file, model);
     //storageService.store(file);
 //    redirectAttributes.addFlashAttribute("message",
 //            "You successfully uploaded " + file.getOriginalFilename() + "!");
 //
-//    return "redirect:/";
+    return "redirect:/";
   }
 
   private String saveUploadedFiles(String title, String message, MultipartFile file, Map<String, Object> model) throws Exception {
@@ -122,14 +119,16 @@ public class Main {
               "message varchar(1000)," +
               "image bytea)");
 
-      ResultSet rs = stmt.executeQuery("SELECT * FROM needs");
+      ResultSet rs = stmt.executeQuery("SELECT title, message FROM needs");
 
-//      ArrayList<String> output = new ArrayList<String>();
-//      while (rs.next()) {
-//        output.add("Read from DB: " + rs.getTimestamp("tick"));
-//      }
+      ArrayList<String> output = new ArrayList<String>();
+      while (rs.next()) {
+        output.add("Read from DB needId: " + rs.getString("needId"));
+        output.add("Read from DB title: " + rs.getString("title"));
+        output.add("Read from DB message: " + rs.getTimestamp("message"));
+      }
 
-//      model.put("records", output);
+      model.put("records", output);
       return "db";
     } catch (Exception e) {
       model.put("message", e.getMessage());
