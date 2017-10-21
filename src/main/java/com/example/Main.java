@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.activation.FileTypeMap;
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import java.io.FileOutputStream;
 import java.io.ByteArrayOutputStream;
@@ -161,7 +162,7 @@ public class Main {
 
 
   @GetMapping("showme")
-  public ResponseEntity<byte[]> getImage() throws IOException{
+  public ResponseEntity<byte[]> getImage2() throws IOException{
     byte[] image = readPicture(Integer.parseInt("2"));
     return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(MediaType.IMAGE_JPEG_VALUE))).body(image);
   }
@@ -204,7 +205,25 @@ public class Main {
   @RequestMapping("/api/image/{id:.+}")
   public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
     byte[] image = readPicture(Integer.parseInt(id));
-    return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+    return ResponseEntity.ok(image);
+  }
+
+  @RequestMapping(value = "/api/image2/{id:.+}" , consumes = MediaType.ALL_VALUE)
+  public ResponseEntity<byte[]> getImage2(@PathVariable("id") String id, HttpServletResponse response) {
+    byte[] image = readPicture(Integer.parseInt(id));
+    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+    return ResponseEntity.ok(image);
+  }
+
+  @RequestMapping(value = "/api/image2/{id:.+}" , consumes = MediaType.ALL_VALUE)
+  public @ResponseBody String getImage3(@PathVariable("id") String id) {
+    byte[] image = readPicture(Integer.parseInt(id));
+    String result = new String();
+    for(int i =0; i<image.length; i++){
+      result = result + String.format("%8s", Integer.toBinaryString(image [i]& 0xFF)).replace(' ', '0');
+    }
+
+    return result;
   }
 
   public byte[] readPicture(int id) {
