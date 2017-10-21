@@ -138,7 +138,7 @@ public class Main {
     }
   }
 
-  @RequestMapping("/api/Image/{id:.+}")
+  @RequestMapping("/api/image/{id:.+}")
   public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
     byte[] image = readPicture(Integer.parseInt(id));
     return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
