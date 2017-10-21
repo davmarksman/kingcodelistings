@@ -12,26 +12,12 @@
   <script src="/js/need.js"></script>
 </head>
 <body>
-  <div class="container">
-    <form id="form">
-      <div class="row">
-        <div data-bind="dxTextBox: title"></div>
+    <div class="container-fluid" data-bind="foreach: listing">
+      <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
+        <h3 data-bind="text:title"></h3>
+        <p data-bind="text:message"></p>
+        <imgage>
       </div>
-      <div class="row">
-        <div class="col-md-4">
-          <div id="fileuploader-container">
-            <div data-bind="dxFileUploader: fileUploaderOptions"></div>
-          </div>
-        </div>
-        <div class="col-md-8">
-          <div data-bind="dxTextArea: textArea"></div>
-        </div>
-      </div>
-      <div class="row">
-        <button type="button" class="btn btn-success" data-bind="click:submitClick">Submit</button>
-      </div>
-
-    </form>
-  </div>
+    </div>
 </body>
 </html>

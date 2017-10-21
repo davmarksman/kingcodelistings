@@ -23,14 +23,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.sql.DataSource;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,11 +62,6 @@ public class Main {
   @RequestMapping("/need")
   String need() {
     return "need";
-  }
-
-  @RequestMapping("/api/need")
-  void needSubmit() {
-
   }
 
   @PostMapping("/api/need")
@@ -133,6 +131,46 @@ public class Main {
       model.put("message", e.getMessage());
       return "error";
     }
+  }
+
+  @RequestMapping("/api/Image/{id:.+}")
+  public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
+    byte[] image = readPicture(Integer.parseInt(id));
+    return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(image);
+  }
+
+  public byte[] readPicture(int id) {
+    // update sql
+    String selectSQL = "SELECT image FROM materials WHERE id=?";
+    ResultSet rs = null;
+    PreparedStatement pstmt = null;
+    byte[] imageBytes = null;
+
+    try (Connection conn = dataSource.getConnection()) {
+      pstmt = conn.prepareStatement(selectSQL);
+      pstmt.setInt(1, id);
+      rs = pstmt.executeQuery();
+
+
+      while (rs.next()) {
+        imageBytes = rs.getBytes("image");
+
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    } finally {
+      try {
+        if (rs != null) {
+          rs.close();
+        }
+        if (pstmt != null) {
+          pstmt.close();
+        }
+      } catch (SQLException e) {
+        System.out.println(e.getMessage());
+      }
+    }
+    return imageBytes;
   }
 
   @Bean

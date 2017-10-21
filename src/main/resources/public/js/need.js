@@ -8,6 +8,11 @@ $(function() {
             message: ko.observable(""),
         };
 
+        self.textArea = {
+            value: self.editingItem.message,
+            height: 300
+        },
+
         self.fileUploaderOptions = {
              selectButtonText: "Select photo",
              multiple: false,
@@ -20,6 +25,7 @@ $(function() {
         self.title = {
             value: self.editingItem.title
         };
+
         self.submitClick = function() {
             var file = (self.editingItem.file().length > 0) ? viewModel.editingItem.file()[0] : null;
             sendNeed("POST", self.editingItem.title(), self.editingItem.message(), file);
