@@ -42,6 +42,7 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -74,9 +75,54 @@ public class Main {
     return "needs";
   }
 
+  @RequestMapping("/login")
+  String login() {
+    return "login";
+  }
+
+  @RequestMapping("/log-in")
+  String login2() {
+    return "login";
+  }
+
+
+  @RequestMapping("/categories")
+  String categories() {
+    return "categories";
+  }
+
+
   @RequestMapping("/listings")
   String listings() {
     return "listings";
+  }
+
+  @RequestMapping("/api/list")
+  public @ResponseBody List<NeedItem> listOfNeeds() {
+    List<NeedItem> items = new ArrayList<NeedItem>();
+
+    items.add(new NeedItem("1", "test", "test Messages"));
+//    try{
+//      try (Connection connection = dataSource.getConnection()) {
+//        Statement stmt = connection.createStatement();
+//        ResultSet rs = stmt.executeQuery("SELECT needId, title, message FROM needs");
+//
+//        while (rs.next()) {
+//          items.add(new NeedItem(
+//                  rs.getString("needId"),
+//                  rs.getString("title"),
+//                  rs.getString("message")
+//          ));
+//        }
+//
+//      } catch (Exception e) {
+//
+//      }
+//    } catch (Exception e) {
+//      items.add(new NeedItem("1", "test", "test Messages"));
+//    }
+
+    return items;
   }
 
 
@@ -121,13 +167,14 @@ public class Main {
               "message varchar(1000)," +
               "image bytea)");
 
-      ResultSet rs = stmt.executeQuery("SELECT needId, title, message FROM needs");
+      ResultSet rs = stmt.executeQuery("SELECT needId, title, message, length(image) as imgLen FROM needs");
 
       ArrayList<String> output = new ArrayList<String>();
       while (rs.next()) {
         output.add("Read from DB needId: " + rs.getString("needId"));
         output.add("Read from DB title: " + rs.getString("title"));
         output.add("Read from DB message: " + rs.getString("message"));
+        output.add("Read from DB image: " + rs.getString("imgLen"));
       }
 
       model.put("records", output);
