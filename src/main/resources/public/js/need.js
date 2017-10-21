@@ -18,7 +18,7 @@ $(function() {
          };
 
         self.title = {
-            value: ko.observable("")
+            value: self.editingItem.title
         };
         self.submitClick = function() {
             var file = (self.editingItem.file().length > 0) ? viewModel.editingItem.file()[0] : null;
