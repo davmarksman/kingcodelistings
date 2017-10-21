@@ -63,10 +63,20 @@ public class Main {
     return "index";
   }
 
+  @RequestMapping("/index")
+  String index2() {
+    return "index";
+  }
+
 
   @RequestMapping("/need")
   String need() {
-    return "need";
+    return "needs";
+  }
+
+  @RequestMapping("/listings")
+  String listings() {
+    return "listings";
   }
 
 

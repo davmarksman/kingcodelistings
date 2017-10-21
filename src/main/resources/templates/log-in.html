@@ -16,8 +16,10 @@
 	<script src="./js/jquery-2.1.0.min.js"></script>
 	<script src="./js/bootstrap.min.js"></script>
 	<script src="./js/blocs.min.js"></script>
+	<script src="./js/jqBootstrapValidation.js"></script>
+	<script src="./js/formHandler.js"></script>
 	<script src="./js/lazysizes.min.js" defer></script>
-    <title>Home</title>
+    <title>Log-In</title>
 
     
 <!-- Google Analytics -->
@@ -29,20 +31,23 @@
 <!-- Main container -->
 <div class="page-container">
     
-<!-- bloc-1 -->
-<div class="bloc bgc-lavender-gray bloc-fill-screen bg-valley l-bloc" id="bloc-1">
-	<div class="container fill-bloc-top-edge">
+<!-- bloc-0 -->
+<div class="bloc bgc-davys-grey bg-citysky-overlay b-parallax bloc-bg-texture texture-fabric d-bloc" id="bloc-0">
+	<div class="container bloc-sm">
 		<nav class="navbar row">
 			<div class="navbar-header">
-				<a class="navbar-brand" href="index.html"><img src="img/lazyload-ph.png" data-src="img/Logo@3x.png" alt="logo" width="50" height="50" class="lazyload" />Help Is On The Way.</a>
+				<a class="navbar-brand" href="index.html"><img src="img/Logo@3x.png" alt="logo" width="50" height="50" />Help Is On The Way</a>
 				<button id="nav-toggle" type="button" class="ui-navbar-toggle navbar-toggle" data-toggle="collapse" data-target=".navbar-1">
 					<span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span>
 				</button>
 			</div>
-			<div class="collapse navbar-collapse navbar-1 special-dropdown-nav">
-				<ul class="site-navigation nav navbar-nav pull-right">
+			<div class="collapse navbar-collapse navbar-1">
+				<ul class="site-navigation nav navbar-nav animated shake-hvr">
 					<li>
-						<a href="needs.html" class="ltc-isabelline">Needs</a>
+						<a href="log-in.html">Log-In</a>
+					</li>
+					<li>
+						<a href="needs.html">Needs</a>
 					</li>
 					<li>
 						<a href="categories.html">Categories</a>
@@ -54,30 +59,48 @@
 			</div>
 		</nav>
 	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-12">
-				<h1 class="text-center hero-bloc-text tc-silver ">
-					Help for every home who needs it.
-				</h1>
-				<h3 class="text-center mg-lg hero-bloc-text-sub tc-silver ">
-					We believe that the Church can make a difference.
-				</h3>
-				<div class="text-center">
-					<a href="log-in.html" class="btn btn-xl btn-davys-grey">Let&rsquo;s get helping each other!</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="container fill-bloc-bottom-edge">
-		<div class="row">
-			<div class="col-sm-12">
-				<a id="scroll-hero" class="blocs-hero-btn-dwn" href="#"><span class="fa fa-chevron-down"></span></a>
+</div>
+<!-- bloc-0 END -->
+
+<!-- bloc-2 -->
+<div class="bloc bgc-lavender-gray b-parallax bg-valley bloc-bg-texture texture-darken-strong l-bloc" id="bloc-2">
+	<div class="container bloc-lg">
+		<div class="row row-no-gutters">
+			<div class="col-sm-12 col-md-6 col-md-offset-3">
+				<form id="form_8133" novalidate>
+					<h2 class="mg-md text-center">
+						LOG IN
+					</h2>
+					<div class="form-group">
+						<label>
+							email
+						</label>
+						<input class="form-control " type="email" placeholder="enter your email" maxlength="255" required id="input_561" />
+					</div>
+					<div class="form-group">
+						<label>
+							password
+						</label>
+						<input class="form-control " type="password" maxlength="64" placeholder="enter your password" required id="input_2755" />
+					</div>
+					<h3 class="mg-md">
+						<br>
+					</h3>
+					<p>
+						<br>
+					</p>
+					<div class="text-center">
+						<a href="index.html" class="btn btn-lg btn-rich-electric-blue">Log me in</a>
+					</div>
+					<h3 class="mg-md">
+						<br>
+					</h3><a href="index.html" class="btn btn-davys-grey">I don't have an account</a><a href="index.html" class="btn btn-davys-grey pull-right">Forgot my login details</a>
+				</form>
 			</div>
 		</div>
 	</div>
 </div>
-<!-- bloc-1 END -->
+<!-- bloc-2 END -->
 
 <!-- ScrollToTop Button -->
 <a class="bloc-button btn btn-d scrollToTop" onclick="scrollToTarget('1')"><span class="fa fa-chevron-up"></span></a>
