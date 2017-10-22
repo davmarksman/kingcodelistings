@@ -147,6 +147,37 @@ public class Main {
     return "terms";
   }
 
+  @RequestMapping("/api/item/{id:.+}")
+  public @ResponseBody NeedItem needItem(@PathVariable("id") String id) {
+
+    try{
+      try (Connection connection = dataSource.getConnection()) {
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT needId, title, message FROM needs WHERE needId=?");
+
+        return new NeedItem(
+                  rs.getString("needId"),
+                  rs.getString("title"),
+                  rs.getString("message")
+          );
+
+      } catch (Exception e) {
+        return new NeedItem(
+                "0",
+                "Not Found",
+                "This is no longer availiable or never existed"
+        );
+      }
+    } catch (Exception e) {
+
+    }
+
+    return new NeedItem(
+            "0",
+                    "Not Found",
+                    "This is no longer availiable or never existed"
+   );
+  }
 
   @RequestMapping("/api/list")
   public @ResponseBody List<NeedItem> listOfNeeds() {
@@ -239,38 +270,6 @@ public class Main {
     return ResponseEntity.ok(image);
   }
 
-  @RequestMapping(value = "/api/image2/{id:.+}" , consumes = MediaType.ALL_VALUE)
-  public ResponseEntity<byte[]> getImage2(@PathVariable("id") String id, HttpServletResponse response) {
-    byte[] image = readPicture(Integer.parseInt(id));
-    response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-    return ResponseEntity.ok(image);
-  }
-
-  @RequestMapping(value = "/api/image3/{id:.+}" , consumes = MediaType.ALL_VALUE)
-  public @ResponseBody String getImage3(@PathVariable("id") String id) {
-    byte[] image = readPicture(Integer.parseInt(id));
-    String result = new String();
-    for(int i =0; i<image.length; i++){
-      result = result + String.format("%8s", Integer.toBinaryString(image [i]& 0xFF)).replace(' ', '0');
-    }
-
-    return result;
-  }
-
-  @GetMapping("showme")
-  public ResponseEntity<byte[]> getImage4() throws IOException{
-    byte[] image = readPicture(Integer.parseInt("2"));
-    return ResponseEntity.ok().contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(MediaType.IMAGE_JPEG_VALUE))).body(image);
-  }
-//  @GetMapping("thing")
-//  public ResponseEntity<byte[]> what() throws IOException{
-//    byte[] image = readPicture(Integer.parseInt("1"));
-//    return ResponseEntity.ok()
-//            .header("Content-Disposition", "attachment; filename=" +file.getName())
-//            .contentType(MediaType.valueOf(FileTypeMap.getDefaultFileTypeMap().getContentType(file)))
-//            .body(Files.readAllBytes(file.toPath()));
-//  }
-
 
   public byte[] readPicture(int id) {
     // update sql
@@ -283,7 +282,6 @@ public class Main {
           pstmt = conn.prepareStatement(selectSQL);
           pstmt.setInt(1, id);
           rs = pstmt.executeQuery();
-
 
           while (rs.next()) {
             imageBytes = rs.getBytes("image");

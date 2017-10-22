@@ -5,9 +5,9 @@
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="shortcut icon" type="image/png" href="favicon.png">
+      <link rel="shortcut icon" type="../image/png" href="favicon.png">
       <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
-      <link rel="stylesheet" type="text/css" href="../style.css">
+      <link rel="stylesheet" type="text/css" href="../css/style.css">
       <link rel="stylesheet" type="text/css" href="../css/animate.min.css">
       <link rel="stylesheet" type="text/css" href="../css/font-awesome.min.css">
       <link rel="stylesheet" type="text/css" href="../css/feather.min.css">
@@ -16,6 +16,7 @@
       <script src="../js/jquery-2.1.0.min.js">
       	
       </script><script src="../js/bootstrap.min.js"></script>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
       <script src="../js/blocs.min.js"></script>
       <script src="../js/lazysizes.min.js" defer></script> 
          <script src="../js/listingDetail.js"></script>
@@ -29,7 +30,7 @@
          <div class="bloc l-bloc bgc-dark-jungle-green" id="bloc-0">
             <div class="container bloc-sm">
                <nav class="navbar row">
-                  <div class="navbar-header"><a class="navbar-brand" href="index.html"><img src="img/Logo@3x.png" alt="logo" width="50" height="50" />Help Is On The Way.</a><button id="nav-toggle" type="button" class="ui-navbar-toggle navbar-toggle" data-toggle="collapse" data-target=".navbar-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+                  <div class="navbar-header"><a class="navbar-brand" href="index.html"><img src="../img/Logo@3x.png" alt="logo" width="50" height="50" />Help Is On The Way.</a><button id="nav-toggle" type="button" class="ui-navbar-toggle navbar-toggle" data-toggle="collapse" data-target=".navbar-1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
                   <div class="collapse navbar-collapse navbar-1">
                      <ul class="site-navigation nav navbar-nav">
                         <li><a href="index.html">Home</a></li>
@@ -41,15 +42,6 @@
                </nav>
             </div>
          </div>
-
-
-                    <a data-bind="attr: { href: urlPath }"><img data-bind="attr:{src: imagePath}"   class="img-responsive lazyload"></a>
-                     
-                     <h3 class="mg-md" data-bind="text:title"></h3>
-                     <p>
-                        <span data-bind="text: message"></span>
-                     </p>
-
          <!-- bloc-0 END --><!-- bloc-8 -->
          <div class="bloc bgc-dark-jungle-green d-bloc" id="bloc-8">
             <div class="container bloc-lg">
@@ -57,12 +49,12 @@
                   <div class="col-sm-4">
                      <img data-bind="attr:{src: item.imagePath}"   class="img-responsive lazyload">
                      <p>&nbsp;&nbsp;&nbsp; <br></p>
-                     <img src="img/lazyload-ph.png" data-src="img/Logo@3x.png" class="img-circle lazyload" width="45" srcset="img/Logo@3x.png 2x" alt="Profile Pic" />
+                     <img src="../img/lazyload-ph.png" data-src="img/Logo@3x.png" class="img-circle lazyload" width="45" srcset="../img/Logo@3x.png 2x" alt="Profile Pic" />
                      <p>Posted on 23 Sep 2017 at 16:23<br></p>
                   </div>
                   <div class="col-sm-8">
                      <h2 class="mg-md"  data-bind="text:item.title"></h2>
-                     <p class="text-left" >  <span data-bind="text: message"></span></p>
+                     <p class="text-left" >  <span data-bind="text: item.message"></span></p>
                      <a href="messenger.html" class="btn btn-sm btn-rich-electric-blue">I can meet your need</a><a href="https://twitter.com/share" class="twitter-share-button pull-right" data-url="http://helpisontheway.co.uk/Listings" data-text="Can you help?">Tweet</a>
                   </div>
                </div>

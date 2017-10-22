@@ -1,7 +1,7 @@
 $(function() {
 
     var arr = window.location.href.split("/");
-    var id = arr[arr.length -1];
+    var id = arr[arr.length -1].replace(".html");
 
     var listingsData = ko.observable([]);
     $.getJSON("/api/item/" + id, function(data){
@@ -13,8 +13,4 @@ $(function() {
         var viewModel = new ViewModel()
         ko.applyBindings(viewModel);
     });
-
-
 });
-
-window.location.href
