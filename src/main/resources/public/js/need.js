@@ -48,6 +48,7 @@ $(function() {
                      data: formData
                  }).done(function () {
                     DevExpress.ui.notify("Done", "Info", 3000)
+                    window.location.reload();
                  });
              }else{
                 DevExpress.ui.notify("Pick an image", "Error", 3000)

@@ -264,45 +264,30 @@ public class Main {
     ResultSet rs = null;
     PreparedStatement pstmt = null;
     byte[] imageBytes = null;
-    if(id != 1) {
-        try (Connection conn = dataSource.getConnection()) {
-          pstmt = conn.prepareStatement(selectSQL);
-          pstmt.setInt(1, id);
-          rs = pstmt.executeQuery();
+    try (Connection conn = dataSource.getConnection()) {
+      pstmt = conn.prepareStatement(selectSQL);
+      pstmt.setInt(1, id);
+      rs = pstmt.executeQuery();
 
-          while (rs.next()) {
-            imageBytes = rs.getBytes("image");
+      while (rs.next()) {
+        imageBytes = rs.getBytes("image");
 
-          }
-        } catch (SQLException e) {
-          System.out.println(e.getMessage());
-        } finally {
-          try {
-            if (rs != null) {
-              rs.close();
-            }
-            if (pstmt != null) {
-              pstmt.close();
-            }
-          } catch (SQLException e) {
-            System.out.println(e.getMessage());
-          }
-        }
-//      }catch(Exception e){
-//        Path path = Paths.get("\\src\\main\\resources\\public");
-//        try {
-//          imageBytes = Files.readAllBytes(path);
-//        } catch (IOException e1) {
-//          e1.printStackTrace();
-//        }
-//      }
-    }else {
+      }
+    } catch (SQLException e) {
+      System.out.println(e.getMessage());
+    } finally {
       try {
-        imageBytes = recoverImageFromUrl("https://upload.wikimedia.org/wikipedia/commons/e/e0/JPEG_example_JPG_RIP_050.jpg");
-      } catch (Exception e) {
-        e.printStackTrace();
+        if (rs != null) {
+          rs.close();
+        }
+        if (pstmt != null) {
+          pstmt.close();
+        }
+      } catch (SQLException e) {
+        System.out.println(e.getMessage());
       }
     }
+
     return imageBytes;
   }
   public byte[] recoverImageFromUrl(String urlText) throws Exception {
