@@ -55,9 +55,11 @@ $(function() {
              }
         }
     };
-
     var viewModel = new ViewModel()
 
-
     ko.applyBindings(viewModel);
+        $(".dx-button-content")
+        .html("<img src='img/Upload.png' data-src='img/Upload.png' class='center-block lazyloaded' width='150' height='150'>")
+        .addClass("bgc-dark-jungle-green")
+        $(".dx-fileuploader-input-label").html("<h5 class='mg-md text-center'><br>Drag &amp; drop your image</h5>")
 });

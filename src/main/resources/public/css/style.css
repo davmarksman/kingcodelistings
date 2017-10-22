@@ -1046,3 +1046,7 @@ label {
         margin-left: 41%;
     }
 }
+
+.dx-fileuploader-input-container{
+    height: 150px !important;
+}
