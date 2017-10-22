@@ -148,37 +148,27 @@ public class Main {
   }
 
   @RequestMapping("/api/item/{id:.+}")
-  public @ResponseBody NeedItem needItem(@PathVariable("id") String id) {
+  public @ResponseBody NeedItem needItem(@PathVariable("id") String id) throws SQLException {
+    try (Connection connection = dataSource.getConnection()) {
+      PreparedStatement pstmt = null;
+      pstmt = connection.prepareStatement("SELECT needId, title, message FROM needs WHERE needId=?");
+      pstmt.setInt(1, Integer.parseInt(id));
+      ResultSet rs = pstmt.executeQuery();
 
-    try{
-      try (Connection connection = dataSource.getConnection()) {
-        PreparedStatement pstmt = null;
-        pstmt = connection.prepareStatement("SELECT needId, title, message FROM needs WHERE needId=?");
-        pstmt.setInt(1, Integer.parseInt(id));
-        ResultSet rs = pstmt.executeQuery();
-
-        return new NeedItem(
-                  rs.getString("needId"),
-                  rs.getString("title"),
-                  rs.getString("message")
-          );
-
-      } catch (Exception e) {
-        return new NeedItem(
-                "0",
-                "Not Found",
-                "This is no longer availiable or never existed"
+      return new NeedItem(
+                rs.getString("needId"),
+                rs.getString("title"),
+                rs.getString("message")
         );
-      }
+
     } catch (Exception e) {
-
+      throw e;
+//      return new NeedItem(
+//              "0",
+//              "Not Found",
+//              "This is no longer availiable or never existed"
+//      );
     }
-
-    return new NeedItem(
-            "0",
-                    "Not Found",
-                    "This is no longer availiable or never existed"
-   );
   }
 
   @RequestMapping("/api/list")
