@@ -48,7 +48,8 @@ $(function() {
                      data: formData
                  }).done(function () {
                     DevExpress.ui.notify("Done", "Info", 3000)
-                    window.location.reload();
+
+                    setTimeout(function(){ window.location.reload(); }, 3000);
                  });
              }else{
                 DevExpress.ui.notify("Pick an image", "Error", 3000)
@@ -59,7 +60,7 @@ $(function() {
 
     ko.applyBindings(viewModel);
         $(".dx-button-content")
-        .html("<img src='img/Upload.png' data-src='img/Upload.png' class='center-block lazyloaded' width='150' height='150'>")
+        .html("<img src='img/Upload.png' data-src='img/Upload.png' class='center-block lazyloaded' width='300' height='300'>")
         .addClass("bgc-dark-jungle-green")
-        $(".dx-fileuploader-input-label").html("<h5 class='mg-md text-center'><br>Drag &amp; drop your image</h5>")
+        $(".dx-fileuploader-input-label").html("<h5 class='mg-md text-center midLabel'><br>Drag &amp; drop your image</h5>")
 });

@@ -1050,3 +1050,18 @@ label {
 .dx-fileuploader-input-container{
     height: 150px !important;
 }
+
+.dx-button {
+    border-width: 0px !important;
+}
+
+.midLabel {
+    width: 300px !important;
+    height: 300px !important;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.dx-fileuploader-input-wrapper .dx-button {
+    float: none !important;
+}
