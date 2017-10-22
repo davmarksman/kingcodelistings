@@ -152,26 +152,26 @@ public class Main {
   public @ResponseBody List<NeedItem> listOfNeeds() {
     List<NeedItem> items = new ArrayList<NeedItem>();
 
-    items.add(new NeedItem("1", "test", "test Messages"));
-//    try{
-//      try (Connection connection = dataSource.getConnection()) {
-//        Statement stmt = connection.createStatement();
-//        ResultSet rs = stmt.executeQuery("SELECT needId, title, message FROM needs");
-//
-//        while (rs.next()) {
-//          items.add(new NeedItem(
-//                  rs.getString("needId"),
-//                  rs.getString("title"),
-//                  rs.getString("message")
-//          ));
-//        }
-//
-//      } catch (Exception e) {
-//
-//      }
-//    } catch (Exception e) {
-//      items.add(new NeedItem("1", "test", "test Messages"));
-//    }
+    //items.add(new NeedItem("1", "test", "test Messages"));
+    try{
+      try (Connection connection = dataSource.getConnection()) {
+        Statement stmt = connection.createStatement();
+        ResultSet rs = stmt.executeQuery("SELECT needId, title, message FROM needs");
+
+        while (rs.next()) {
+          items.add(new NeedItem(
+                  rs.getString("needId"),
+                  rs.getString("title"),
+                  rs.getString("message")
+          ));
+        }
+
+      } catch (Exception e) {
+
+      }
+    } catch (Exception e) {
+      items.add(new NeedItem("1", "test", "test Messages"));
+    }
 
     return items;
   }
