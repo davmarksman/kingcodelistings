@@ -12,6 +12,7 @@ $(function() {
             if(count === 4){
                 all.push(currentRow.slice(0));
                 currentRow = [];
+                count = 0;
             }
         }
         if(count != 4){
