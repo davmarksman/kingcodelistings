@@ -25,4 +25,7 @@ public class NeedItem {
     public String getImagePath() {
         return "/api/image/" + needId;
     }
+    public String getUrlPath() {
+        return "/listing_details/" + needId;
+    }
 }

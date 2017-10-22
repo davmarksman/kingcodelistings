@@ -87,17 +87,66 @@ public class Main {
     return "login";
   }
 
+  @RequestMapping("/logout")
+  String logout() {
+    return "logout";
+  }
+
+  @RequestMapping("/log-out")
+  String logout2() {
+    return "logout";
+  }
+
+  @RequestMapping("/contact-us")
+  String contact() {
+    return "contact";
+  }
+
+  @RequestMapping("/contactus")
+  String contact2() {
+    return "contact";
+  }
 
   @RequestMapping("/categories")
   String categories() {
     return "categories";
   }
 
+  @RequestMapping("/listing_details/{id:.+}")
+  String listingDetails(@PathVariable("id") String id) {
+    return "listing_details";
+  }
 
   @RequestMapping("/listings")
   String listings() {
     return "listings";
   }
+
+  @RequestMapping("/messenger")
+  String messenger() {
+    return "messenger";
+  }
+
+  @RequestMapping("/our-people")
+  String people() {
+    return "people";
+  }
+
+  @RequestMapping("/people")
+  String people2() {
+    return "people";
+  }
+
+  @RequestMapping("/sign-up")
+  String signUp() {
+    return "signup";
+  }
+
+  @RequestMapping("/terms-and-conditions")
+  String terms() {
+    return "terms";
+  }
+
 
   @RequestMapping("/api/list")
   public @ResponseBody List<NeedItem> listOfNeeds() {
@@ -131,11 +180,8 @@ public class Main {
   @PostMapping("/api/need")
   public void handleFileUpload(@RequestParam("title") String title,
                                  @RequestParam("message") String message,
-                                 @RequestParam("imagefile") MultipartFile file,
-                                 RedirectAttributes redirectAttributes) throws Exception {
-    Map<String, Object> model = new HashMap<String, Object>();
-
-    saveUploadedFiles(title, message, file, model);
+                                 @RequestParam("imagefile") MultipartFile file) throws Exception {
+    saveUploadedFiles(title, message, file);
     //storageService.store(file);
 //    redirectAttributes.addFlashAttribute("message",
 //            "You successfully uploaded " + file.getOriginalFilename() + "!");
@@ -143,7 +189,7 @@ public class Main {
     //return "redirect:/";
   }
 
-  private void saveUploadedFiles(String title, String message, MultipartFile file, Map<String, Object> model) throws Exception {
+  private void saveUploadedFiles(String title, String message, MultipartFile file) throws Exception {
     byte[] bytes = file.getBytes();
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
@@ -156,7 +202,6 @@ public class Main {
       ps.close();
 
     } catch (Exception e) {
-      model.put("message", e.getMessage());
     }
   }
 
@@ -229,7 +274,7 @@ public class Main {
 
   public byte[] readPicture(int id) {
     // update sql
-    String selectSQL = "SELECT image FROM materials WHERE id=?";
+    String selectSQL = "SELECT image FROM materials WHERE needId=?";
     ResultSet rs = null;
     PreparedStatement pstmt = null;
     byte[] imageBytes = null;

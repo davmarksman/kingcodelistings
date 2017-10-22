@@ -16,7 +16,7 @@ $(function() {
         self.fileUploaderOptions = {
              selectButtonText: "Select photo",
              multiple: false,
-             labelText: "",
+             labelText: "Drag & drop your images here to upload",
              accept: "image/*",
              uploadMode: "useForm",
              value: self.editingItem.file,
