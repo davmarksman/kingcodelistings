@@ -274,7 +274,7 @@ public class Main {
 
   public byte[] readPicture(int id) {
     // update sql
-    String selectSQL = "SELECT image FROM materials WHERE needId=?";
+    String selectSQL = "SELECT image FROM needs WHERE needId=?";
     ResultSet rs = null;
     PreparedStatement pstmt = null;
     byte[] imageBytes = null;
