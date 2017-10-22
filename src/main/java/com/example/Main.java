@@ -175,7 +175,8 @@ public class Main {
   public @ResponseBody List<NeedItem> listOfNeeds() {
     List<NeedItem> items = new ArrayList<NeedItem>();
 
-    //items.add(new NeedItem("1", "test", "test Messages"));
+//    items.add(new NeedItem("1", "test", "test Messages"));
+
     try{
       try (Connection connection = dataSource.getConnection()) {
         Statement stmt = connection.createStatement();
