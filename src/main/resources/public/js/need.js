@@ -37,17 +37,21 @@ $(function() {
              formData.append("message", message);
              //var researchJson = JSON.stringify({ title: title, message: message});
 
-             if(file != null)formData.append('imagefile', file);
+             if(file != null) {
+                formData.append('imagefile', file);
 
-             $.ajax({
-                 url: "/api/need",
-                 method: method,
-                 processData : false,
-                 contentType: file ? false :'application/json',
-                 data: formData
-             }).done(function () {
-                DevExpress.ui.notify("Done", "Info", 3000)
-             });
+                 $.ajax({
+                     url: "/api/need",
+                     method: method,
+                     processData : false,
+                     contentType: file ? false :'application/json',
+                     data: formData
+                 }).done(function () {
+                    DevExpress.ui.notify("Done", "Info", 3000)
+                 });
+             }else{
+                DevExpress.ui.notify("Pick an image", "Error", 3000)
+             }
         }
     };
 

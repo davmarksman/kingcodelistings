@@ -199,17 +199,12 @@ public class Main {
     return items;
   }
 
-
   @PostMapping("/api/need")
-  public void handleFileUpload(@RequestParam("title") String title,
+  public @ResponseBody String handleFileUpload(@RequestParam("title") String title,
                                  @RequestParam("message") String message,
                                  @RequestParam("imagefile") MultipartFile file) throws Exception {
     saveUploadedFiles(title, message, file);
-    //storageService.store(file);
-//    redirectAttributes.addFlashAttribute("message",
-//            "You successfully uploaded " + file.getOriginalFilename() + "!");
-//
-    //return "redirect:/";
+    return "Done!";
   }
 
   private void saveUploadedFiles(String title, String message, MultipartFile file) throws Exception {
