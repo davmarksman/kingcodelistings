@@ -154,7 +154,7 @@ public class Main {
       try (Connection connection = dataSource.getConnection()) {
         PreparedStatement pstmt = null;
         pstmt = connection.prepareStatement("SELECT needId, title, message FROM needs WHERE needId=?");
-        pstmt.setInt(1, id);
+        pstmt.setInt(1, Integer.parseInt(id));
         ResultSet rs = pstmt.executeQuery();
 
         return new NeedItem(
