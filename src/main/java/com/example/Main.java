@@ -228,9 +228,10 @@ public class Main {
   String db(Map<String, Object> model) {
     try (Connection connection = dataSource.getConnection()) {
       Statement stmt = connection.createStatement();
+      stmt.executeUpdate("Drop TABLE needs");
       stmt.executeUpdate("CREATE TABLE IF NOT EXISTS needs (needId SERIAL, " +
               "title varchar(100)," +
-              "message varchar(1000)," +
+              "message varchar(4000)," +
               "image bytea)");
 
       ResultSet rs = stmt.executeQuery("SELECT needId, title, message, length(image) as imgLen FROM needs");
